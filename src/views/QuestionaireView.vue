@@ -1,5 +1,5 @@
 <template>
-    <div class="border-black border-2 flex flex-col justify-center items-center gap-10">
+    <div class=" flex flex-col justify-center items-center gap-10">
         <CurrentQuestion />
         <AddedQuestions/>
     </div>
