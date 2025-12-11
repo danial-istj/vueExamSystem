@@ -13,9 +13,7 @@
                 <p class="text-3xl font-bold text-blue-600">{{ attemptStore.percentage }}%</p>
                 <p class="text-gray-600">Your Score</p>
             </div>
-
-
-            <button @click="restartQuiz"
+            <button @click="attemptStore.resetQuiz"
                 class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg mb-3 transition">
                 Retake Quiz
             </button>
@@ -25,15 +23,7 @@
 
 <script setup lang="ts">
 import { useAttemptStore } from '@/stores/attemptStore';
-import { onMounted, ref } from 'vue';
 
 const attemptStore = useAttemptStore()
-const score = ref<number>(0)
 
-onMounted(() => {
-    score.value = attemptStore.score
-})
-function restartQuiz() {
-    attemptStore.resetQuiz()
-}
 </script>

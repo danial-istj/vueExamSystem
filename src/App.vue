@@ -16,7 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
     </div>
   </header>
-  <main class="ml-72 p-2  border-2 border-green-500">
+  <main class="ml-72 p-2">
     <RouterView />
   </main>
 </template>
