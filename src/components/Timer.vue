@@ -12,10 +12,14 @@
 <script setup lang="ts">
 import { useDifficultyStore } from '@/stores/difficultyStore';
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 
 const difficultyStore = useDifficultyStore()
 const { remainingTime } = storeToRefs(difficultyStore)
-difficultyStore.startTimer()
+onMounted(() => {
+    difficultyStore.startTimer()
+
+})
 
 
 </script>

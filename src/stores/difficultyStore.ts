@@ -4,12 +4,12 @@ import { useQuestionsStore } from "./questionsStore";
 
 export const useDifficultyStore = defineStore("difficulty", () => {
   const questionStore = useQuestionsStore();
-
+  
+  const time = 15;
   const noOfQuestions = ref<number>(questionStore.questions.length);
   const isRandom = ref<boolean>(false);
   const isTimed = ref<boolean>(false);
   const isDifficultySet = ref<boolean>(false);
-  const time = 15;
   const remainingTime = ref<number>(time);
 
   function toggleRandomed(): void {
@@ -20,6 +20,7 @@ export const useDifficultyStore = defineStore("difficulty", () => {
   }
   function setDifficulty(): void {
     isDifficultySet.value = !isDifficultySet.value;
+    resetTimer();
   }
   let intervalId: ReturnType<typeof setInterval>;
   function startTimer() {

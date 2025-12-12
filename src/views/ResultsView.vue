@@ -1,11 +1,10 @@
 <template>
-<h1>This is reslut view</h1>
+    <ResultsTable />
 </template>
 
-<script>
+<script setup lang="ts">
+import ResultsTable from '@/components/ResultsTable.vue';
 
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -16,26 +16,29 @@ export const useAttemptStore = defineStore("attempt", () => {
   const questions = computed<question[]>(() => {
     return giveQuestions(noOfQuestions.value, isRandom.value);
   });
+  
   const currentQuestion = computed(() => {
     return questions.value[currentIndex.value];
   });
   const percentage = computed(() => {
-    return (score.value / questions.value.length) * 100;
+    return ((score.value / questions.value.length) * 100).toFixed(2);
   });
   const previewResult = ref<boolean>(false);
 
   function nextQuestion() {
-    if (currentIndex.value < questions.value.length-1) {
+    if (currentIndex.value < questions.value.length - 1) {
       currentIndex.value++;
     } else {
-
       showResults.value = true;
     }
-    difficultyStore.resetTimer()
+    difficultyStore.resetTimer();
   }
 
   function checkAnswer(index: number): void {
-    if (currentQuestion.value?.options[index]?.correct === true && currentIndex.value < questions.value.length) {
+    if (
+      currentQuestion.value?.options[index]?.correct === true &&
+      currentIndex.value < questions.value.length
+    ) {
       score.value++;
     }
     previewResult.value = true;

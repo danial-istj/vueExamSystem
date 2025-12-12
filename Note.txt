@@ -1,1 +1,16 @@
-I'm supposed to create a full website on vue typescript pinia vue router tailswind and firebase , im at a internship and my senior has asked me to create a quiz app, there will be several pages of the app they features they have told me till now are on one page teh questionaire page the user will be able to add questions and on the the attempt quiz page the user will attempt those questions and there will be a timer like you have this much time to attempt one question like that we can make the timer optional by toggling button, they said i should make a full app like real world like project play with data, take the data from user and play with it so can you give me idea how can we do it how many other apps can i add and what about components, you are just supposed to give me the proper requirements , I will create the full app own my own so i could impress my seniors.
+i have created a practice project using pinia ts vue vue router and tailwind,
+ it has three functining pages questionaire where you can add and preview added pages,
+ attempt quiz where you can attempt quiz using varing difficulty and then there is 
+ results that stores recent results, and home page shows high score
+
+ Suggested Steps
+
+Create Firebase project → enable Firestore and Auth.
+
+Initialize Firebase in your Vue app (firebase.ts).
+
+Replace local storage logic with Firestore queries (questions & results).
+
+Implement Auth for login/signup (optional but recommended).
+
+Deploy to Firebase Hosting.
