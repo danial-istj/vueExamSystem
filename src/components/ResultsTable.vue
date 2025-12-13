@@ -31,10 +31,21 @@
 import { useResultsStore } from '@/stores/resultsStore';
 import { useFormatedDate } from '@/composables/formatDateLogic';
 import { storeToRefs } from 'pinia';
+import { getUserData } from '@/firebase/db';
+import { useAuthStore } from '@/stores/authStore';
+import { onMounted } from 'vue';
+
 const formatDate = useFormatedDate()
 const resultsStore = useResultsStore()
 const { results } = storeToRefs(resultsStore)
+const authStore=useAuthStore()
 
+
+
+onMounted(async ()=>{
+const data=await getUserData(authStore.uid)
+results.value=data?.results
+})
 
 
 </script>

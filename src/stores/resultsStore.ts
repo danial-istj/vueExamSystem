@@ -1,6 +1,9 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import type { result } from "@/types/results";
+import { saveResults } from "@/firebase/db";
+import { useAuthStore } from "./authStore";
+
 export const useResultsStore = defineStore("results", () => {
   const results = ref<result[]>([]);
   const highestScore = computed<result | undefined>(() => {
@@ -8,20 +11,26 @@ export const useResultsStore = defineStore("results", () => {
       return undefined;
     }
     return results.value.reduce(
-      (prev, curr) => (Number(curr.percentage) > Number(prev.percentage) ? curr : prev),
+      (prev, curr) =>
+        Number(curr.percentage) > Number(prev.percentage) ? curr : prev,
       results.value[0]!
     );
   });
-  function addResult(item: result): void {
+  const authStore = useAuthStore();
+
+  async function addResult(item: result) {
     results.value.unshift(item);
+    await saveResults(authStore.uid, results.value);
   }
 
-  function deleteResult(id: number): void {
+  async function deleteResult(id: number) {
     results.value = results.value.filter((result) => result.id !== id);
+    await saveResults(authStore.uid, results.value);
   }
 
-  function deleteAllResults(): void {
+  async function deleteAllResults() {
     results.value = [];
+    await saveResults(authStore.uid, results.value);
   }
 
   return { addResult, deleteResult, deleteAllResults, results, highestScore };

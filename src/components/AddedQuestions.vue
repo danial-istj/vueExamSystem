@@ -32,8 +32,17 @@
 <script setup lang="ts">
 import { useQuestionsStore } from '@/stores/questionsStore';
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+import { getUserData } from '@/firebase/db';
+import { useAuthStore } from '@/stores/authStore';
 
 const store = useQuestionsStore()
 const { questions } = storeToRefs(store)
+const authStore=useAuthStore()
+
+onMounted(async ()=>{
+const data=await getUserData(authStore.uid)
+questions.value=data?.questions
+})
 
 </script>

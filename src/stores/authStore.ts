@@ -7,12 +7,22 @@ import {
   signOut,
   signInWithPopup,
   GoogleAuthProvider,
+  onAuthStateChanged,
 } from "firebase/auth";
+import type { User } from "firebase/auth";
+import { saveQuestions, saveResults } from "@/firebase/db";
+import { defaultQuestions, defaultResults } from "@/firebase/defaultData";
 
 export const useAuthStore = defineStore("auth", () => {
-  const message = ref<string>("");
-
+  const message = ref<string | null>(null);
+  const uid = ref<string>("");
+  const user = ref<User | null>(null);
   const auth = getAuth();
+
+  onAuthStateChanged(auth, (firebaseUser) => {
+    user.value = firebaseUser;
+    uid.value = firebaseUser?.uid || null!;
+  });
 
   async function register(email: string, password: string) {
     try {
@@ -34,6 +44,8 @@ export const useAuthStore = defineStore("auth", () => {
           message.value = error.message;
       }
     }
+    await saveQuestions(uid.value, defaultQuestions);
+    await saveResults(uid.value, defaultResults);
   }
 
   async function signIn(email: string, password: string) {
@@ -77,5 +89,5 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
-  return { register, signIn, signInWithGoogle, logOut, message };
+  return { register, signIn, signInWithGoogle, logOut, message, uid };
 });
