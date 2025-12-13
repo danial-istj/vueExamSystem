@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from './stores/authStore';
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -12,7 +14,11 @@ import { RouterLink, RouterView } from 'vue-router'
           Questionaire</RouterLink>
         <RouterLink to="/attemptquiz" class="px-3 py-2 rounded hover:bg-gray-700 transition w-full text-center">Attempt
           Quiz</RouterLink>
-          <RouterLink to="/results" class="px-3 py-2 rounded hover:bg-gray-700 transition w-full text-center">Results</RouterLink>
+        <RouterLink to="/results" class="px-3 py-2 rounded hover:bg-gray-700 transition w-full text-center">Results
+        </RouterLink>
+        <button @click="authStore.logOut"
+          class="px-3 py-2 rounded hover:bg-gray-700 transition w-full text-center mb-1">Sign
+          Out</button>
       </nav>
     </div>
   </header>

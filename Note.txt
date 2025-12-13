@@ -5,12 +5,13 @@ i have created a practice project using pinia ts vue vue router and tailwind,
 
  Suggested Steps
 
-Create Firebase project → enable Firestore and Auth.
 
-Initialize Firebase in your Vue app (firebase.ts).
+Create Firebase project → enable Firestore and Auth
 
-Replace local storage logic with Firestore queries (questions & results).
+Initialize Firebase in your Vue app (firebase.ts)
 
-Implement Auth for login/signup (optional but recommended).
+Implement Auth for login/signup (optional but recommended)
 
-Deploy to Firebase Hosting.
+Replace local storage logic with Firestore queries (questions & results)
+
+Deploy to Firebase Hosting
