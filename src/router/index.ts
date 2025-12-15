@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { getAuth } from "firebase/auth";
-import { onAuthStateChanged } from "firebase/auth";
+import { useAuthStore } from "@/stores/authStore";
 import HomeView from "@/views/HomeView.vue";
 import QuestionaireView from "@/views/QuestionaireView.vue";
 import AttemptQuizView from "@/views/AttemptQuizView.vue";
@@ -46,20 +45,24 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  const auth = getAuth();
-  const requiresAuth = to.meta.requiresAuth;
+router.beforeEach((to) => {
+  const authStore = useAuthStore();
 
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-    if (requiresAuth && !user) {
-      next("/signin");
-    } else if ((to.path === "/signin" || to.path === "/register") && user) {
-      next("/");
-    } else {
-      next();
-    }
-    unsubscribe();
-  });
+  if (!authStore.isReady) {
+    return false;
+  }
+
+  if (to.meta.requiresAuth && !authStore.user) {
+    return "/signin";
+  }
+
+  if (
+    (to.path === "/signin" || to.path === "/register") &&
+    authStore.user
+  ) {
+    return "/";
+  }
 });
+
 
 export default router;

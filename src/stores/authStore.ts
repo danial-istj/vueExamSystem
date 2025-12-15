@@ -18,15 +18,20 @@ export const useAuthStore = defineStore("auth", () => {
   const uid = ref<string>("");
   const user = ref<User | null>(null);
   const auth = getAuth();
+  const loading = ref<boolean>(false);
+  const isReady = ref<boolean>(false);
 
   onAuthStateChanged(auth, (firebaseUser) => {
     user.value = firebaseUser;
     uid.value = firebaseUser?.uid || null!;
+    isReady.value = true;
   });
 
   async function register(email: string, password: string) {
+    loading.value = true;
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      message.value = "Successfully registered!";
       console.log("Successfully registered!");
     } catch (error: any) {
       console.log(error.code);
@@ -43,12 +48,19 @@ export const useAuthStore = defineStore("auth", () => {
         default:
           message.value = error.message;
       }
+    } finally {
+      try {
+        await saveQuestions(uid.value, defaultQuestions);
+        await saveResults(uid.value, defaultResults);
+      } finally {
+        loading.value = false;
+        message.value = "";
+      }
     }
-    await saveQuestions(uid.value, defaultQuestions);
-    await saveResults(uid.value, defaultResults);
   }
 
   async function signIn(email: string, password: string) {
+    loading.value = true;
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Successfully signed in!");
@@ -67,27 +79,48 @@ export const useAuthStore = defineStore("auth", () => {
         default:
           message.value = error.message;
       }
+    } finally {
+      loading.value = false;
+      message.value = "";
     }
   }
 
   async function signInWithGoogle() {
+    loading.value = true;
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       console.log("Successfully signed in with Google!");
     } catch (error: any) {
       console.log(error.code);
+    } finally {
+      loading.value = false;
+      message.value = "";
     }
   }
 
   async function logOut() {
+    loading.value = true;
     try {
       await signOut(auth);
       console.log("Signed out successfully");
     } catch (error: any) {
       console.log(error.code);
+    } finally {
+      loading.value = false;
+      message.value = "";
     }
   }
 
-  return { register, signIn, signInWithGoogle, logOut, message, uid };
+  return {
+    register,
+    signIn,
+    signInWithGoogle,
+    logOut,
+    message,
+    uid,
+    loading,
+    isReady,
+    user,
+  };
 });

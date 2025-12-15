@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { RouterLink, RouterView} from 'vue-router'
 import { useAuthStore } from './stores/authStore';
+import { storeToRefs } from 'pinia';
+import Loading from './components/Loading.vue';
+import router from './router';
 const authStore = useAuthStore()
+const {loading}=storeToRefs(authStore)
+
+function logOutUser(){
+  authStore.logOut()
+  router.replace("/register")
+}
 </script>
 
 <template>
@@ -16,12 +25,13 @@ const authStore = useAuthStore()
           Quiz</RouterLink>
         <RouterLink to="/results" class="px-3 py-2 rounded hover:bg-gray-700 transition w-full text-center">Results
         </RouterLink>
-        <button @click="authStore.logOut"
+        <button @click="logOutUser"
           class="px-3 py-2 rounded hover:bg-gray-700 transition w-full text-center mb-1">Sign
           Out</button>
       </nav>
     </div>
   </header>
+  <Loading v-if="loading"/>
   <main class="ml-72 p-2">
     <RouterView />
   </main>
