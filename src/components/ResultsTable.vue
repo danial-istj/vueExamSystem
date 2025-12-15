@@ -1,8 +1,9 @@
 <template>
     <div class="added-questions  w-full flex flex-col justify-center item-center p-4">
         <div class="w-full flex justify-end">
-            <button @click="resultsStore.deleteAllResults()"
+            <button @click="confirming=true"
                 class="bg-red-600 hover:bg-red-500 rounded mb-3 text-white p-2 w-1/6">Delete All</button>
+                <Confirmation v-if="confirming" action="Delete All" :proceed="()=>{resultsStore.deleteAllResults(); confirming=false}" :cancel="()=>{confirming=false}"/>
         </div>
         <table class="table-auto border-black border-2 ">
             <thead>
@@ -16,15 +17,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="result in results" class="border border-black p-2 text-center">
+                <tr v-for="result in results" :key="result.id" class="border border-black p-2 text-center">
                     <td class="border border-black p-2 text-center">{{ formatDate.formattedTime(result.id) }}</td>
                     <td class="border border-black p-2 text-center">{{ formatDate.formattedDate(result.id) }}</td>
                     <td class="border border-black p-2 text-center">{{ result.marks }}</td>
                     <td class="border border-black p-2 text-center">{{ result.total }}</td>
                     <td class="border border-black p-2 text-center">{{ result.percentage }}</td>
-                    <td class="border border-black p-2 text-center"><button
+                    <td class="border border-black p-2 text-center">
+                        <button
                             class="bg-red-600 hover:bg-red-500 rounded mb-3 text-white p-2"
-                            @click="resultsStore.deleteResult(result.id)">Delete</button></td>
+                            @click="selectedId=result.id; confirming=true">Delete</button>
+                        <Confirmation v-if="confirming && selectedId === result.id" action="Delete" :proceed="deleteSelected" :cancel="()=>{confirming=false; selectedId=null}"/>
+                        
+                        
+                        </td>
                 </tr>
             </tbody>
         </table>
@@ -38,11 +44,23 @@ import { storeToRefs } from 'pinia';
 import { getUserData } from '@/firebase/db';
 import { useAuthStore } from '@/stores/authStore';
 import { onMounted } from 'vue';
+import { ref } from 'vue';
+import Confirmation from './Confirmation.vue';
 
 const formatDate = useFormatedDate()
 const resultsStore = useResultsStore()
 const { results } = storeToRefs(resultsStore)
 const authStore = useAuthStore()
+const confirming=ref<boolean>(false)
+const selectedId = ref<number | null>(null)
+
+function deleteSelected() {
+    if (selectedId.value !== null) {
+        resultsStore.deleteResult(selectedId.value)
+        selectedId.value = null
+    }
+    confirming.value = false
+}
 
 
 

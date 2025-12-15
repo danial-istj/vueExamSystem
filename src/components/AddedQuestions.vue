@@ -23,8 +23,10 @@
                         </ul>
                     </td>
                     <td class="border border-black p-2 text-center">
-                        <button @click="store.deleteQuestion(question.id)"
+                        <button @click="selectedId = question.id; confirming = true"
                             class="bg-red-600 hover:bg-red-500  rounded  mr-1 text-white p-2 ">Delete</button>
+                        <Confirmation v-if="confirming && selectedId === question.id" action="Delete"
+                            :proceed="deleteSelected" :cancel="() => { confirming = false; selectedId = null }" />
                         <button class="bg-green-600 hover:bg-green-500  rounded  ml-1 text-white p-2 "
                             @click="store.editQuestion(question.id)">Edit</button>
                     </td>
@@ -36,15 +38,28 @@
 </template>
 
 <script setup lang="ts">
+import Confirmation from './Confirmation.vue';
 import { useQuestionsStore } from '@/stores/questionsStore';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { getUserData } from '@/firebase/db';
 import { useAuthStore } from '@/stores/authStore';
+import { ref } from 'vue';
 
 const store = useQuestionsStore()
 const { questions } = storeToRefs(store)
 const authStore = useAuthStore()
+
+const confirming = ref<boolean>(false)
+const selectedId = ref<number | null>(null)
+
+function deleteSelected() {
+    if (selectedId.value !== null) {
+        store.deleteQuestion(selectedId.value)
+        selectedId.value = null
+    }
+    confirming.value = false
+}
 
 onMounted(async () => {
     const data = await getUserData(authStore.uid)

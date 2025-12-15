@@ -1,5 +1,5 @@
 <template>
-        <div class="difficulty w-full h-screen flex items-center justify-center ">
+    <div class="difficulty w-full h-screen flex items-center justify-center ">
         <div class=" bg-white rounded-lg p-8 shadow-lg max-w-md w-full mx-4">
             <h2 class="text-2xl font-bold mb-6">Select No. of Questions:</h2>
             <input type="number" v-model="noOfQuestions" class="w-full border-2 border-gray-300 rounded p-2 mb-6">
@@ -19,10 +19,11 @@
             </div>
 
             <button @click="setDifficulty"
-                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" :disabled="invalidNoOfQuestions">Set
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                :disabled="invalidNoOfQuestions">Set
                 Difficulty</button>
         </div>
-        </div>
+    </div>
 </template>
 
 <script setup lang="ts">

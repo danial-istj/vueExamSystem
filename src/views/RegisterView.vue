@@ -37,11 +37,16 @@ import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
 import { storeToRefs } from 'pinia';
 import router from '@/router';
+import { onMounted } from 'vue';
 
 const email = ref<string>("")
 const password = ref<string>("")
 const authStore = useAuthStore()
 const { message } = storeToRefs(authStore)
+
+onMounted(() => {
+  message.value = null
+})
 
 async function registerUser() {
   await authStore.register(email.value, password.value)

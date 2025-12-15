@@ -10,7 +10,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import type { User } from "firebase/auth";
-import { saveQuestions, saveResults } from "@/firebase/db";
+import { saveQuestions, saveResults, getUserData } from "@/firebase/db";
 import { defaultQuestions, defaultResults } from "@/firebase/defaultData";
 
 export const useAuthStore = defineStore("auth", () => {
@@ -83,7 +83,6 @@ export const useAuthStore = defineStore("auth", () => {
       }
     } finally {
       loading.value = false;
-      message.value = "";
     }
   }
 
@@ -91,13 +90,20 @@ export const useAuthStore = defineStore("auth", () => {
     loading.value = true;
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const cred = await signInWithPopup(auth, provider);
+      const uid = cred.user.uid;
+
+      const userData = await getUserData(uid);
+      if (!userData) {
+        await saveQuestions(uid, defaultQuestions);
+        await saveResults(uid, defaultResults);
+      }
+
       console.log("Successfully signed in with Google!");
     } catch (error: any) {
       console.log(error.code);
     } finally {
       loading.value = false;
-      message.value = "";
     }
   }
 
@@ -110,7 +116,6 @@ export const useAuthStore = defineStore("auth", () => {
       console.log(error.code);
     } finally {
       loading.value = false;
-      message.value = "";
     }
   }
 
