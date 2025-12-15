@@ -29,12 +29,20 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function register(email: string, password: string) {
     loading.value = true;
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+      const uid = cred.user.uid;
+
+      await saveQuestions(uid, defaultQuestions);
+      await saveResults(uid, defaultResults);
+
       message.value = "Successfully registered!";
       console.log("Successfully registered!");
     } catch (error: any) {
       console.log(error.code);
+
       switch (error.code) {
         case "auth/email-already-in-use":
           message.value = "Email already in use.";
@@ -46,16 +54,10 @@ export const useAuthStore = defineStore("auth", () => {
           message.value = "Password must be at least 6 characters.";
           break;
         default:
-          message.value = error.message;
+          message.value = "Something went wrong. Try again.";
       }
     } finally {
-      try {
-        await saveQuestions(uid.value, defaultQuestions);
-        await saveResults(uid.value, defaultResults);
-      } finally {
-        loading.value = false;
-        message.value = "";
-      }
+      loading.value = false;
     }
   }
 
