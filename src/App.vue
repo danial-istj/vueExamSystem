@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Layout from './layout/layout.vue';
+import Layout1 from './layout/Layout1.vue';
 import { useAuthStore } from './stores/authStore';
 
 
@@ -9,10 +9,11 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <Layout v-if="authStore.uid" />
-  <main class="ml-72 p-2">
+  <Layout1 v-if="authStore.uid" />
+  
+  <!-- <main class="ml-72 p-2">
     <RouterView />
-  </main>
+  </main> -->
 </template>
 
 <style scoped></style>

@@ -1,17 +1,6 @@
-i have created a practice project using pinia ts vue vue router and tailwind,
- it has three functining pages questionaire where you can add and preview added pages,
- attempt quiz where you can attempt quiz using varing difficulty and then there is 
- results that stores recent results, and home page shows high score
+blue-600   // primary buttons
+green-500  // correct answer
+red-500    // timer warning
+gray-100   // background
+gray-800   // text
 
- Suggested Steps
-
-
-Create Firebase project → enable Firestore and Auth
-
-Initialize Firebase in your Vue app (firebase.ts)
-
-Implement Auth for login/signup (optional but recommended)
-
-Replace local storage logic with Firestore queries (questions & results)
-
-Deploy to Firebase Hosting
