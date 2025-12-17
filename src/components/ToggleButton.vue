@@ -22,3 +22,21 @@ const props = defineProps<{
     isOn: boolean
 }>()
 </script>
+
+
+
+<template>
+  <a-switch v-model:checked="checked" @click="onToggle" />
+</template>
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+export default defineComponent({
+  setup() {
+    const checked = ref<boolean>(false);
+    return {
+      checked,
+    };
+  },
+});
+</script>
+

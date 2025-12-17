@@ -1,18 +1,20 @@
 <template>
-    <SetDifficulty v-if="!isDifficultySet" />
+    <div class=" flex flex-col justify-center items-center gap-6 p-6">
+        <SetDifficulty v-if="!isDifficultySet" />
 
-    <div v-if="isDifficultySet && !showResults" class="w-full flex gap-5 flex-col items-center">
-        <button @click="restartQuiz"
-            class="px-5 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow hover:bg-indigo-700 transition-colors">
-            Restart Quiz
-        </button>
-        <p class="text-sm text-gray-600 mt-2 mb-4">
-            Note: Quiz will restart on leaving this page.
-        </p>
-        <AttemptQuiz />
+        <div v-if="isDifficultySet && !showResults" class="w-full flex gap-5 flex-col items-center">
+            <button @click="restartQuiz"
+                class="px-5 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow hover:bg-indigo-700 transition-colors">
+                Restart Quiz
+            </button>
+            <p class="text-sm text-gray-600 mt-2 mb-4">
+                Note: Quiz will restart on leaving this page.
+            </p>
+            <AttemptQuiz />
+        </div>
+
+        <ShowResults v-if="showResults" :score="score" />
     </div>
-
-    <ShowResults v-if="showResults" :score="score" />
 </template>
 
 

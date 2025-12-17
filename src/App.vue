@@ -9,7 +9,7 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <Layout1 v-if="authStore.uid" />
+  <Layout1  />
   
   <!-- <main class="ml-72 p-2">
     <RouterView />

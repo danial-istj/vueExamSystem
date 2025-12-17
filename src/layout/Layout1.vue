@@ -6,6 +6,7 @@
       collapsible
       class="fixed h-screen border-r border-r-gray-600 z-50"
       width="200"
+      v-if="authStore.uid"
       
     >
       <div class="logo flex items-center justify-center py-4">
@@ -57,7 +58,7 @@
     <!-- Main Layout -->
     <a-layout class="min-h-screen">
       <!-- Header -->
-      <a-layout-header class="header fixed top-0 left-0 right-0 z-10" theme="dark">
+      <a-layout-header class="header fixed top-0 left-0 right-0 z-10" theme="dark" v-if="authStore.uid">
     
       </a-layout-header>
 
@@ -78,6 +79,7 @@ import router from '@/router'
 import { useAuthStore } from '@/stores/authStore'
 import { RouterLink, RouterView } from 'vue-router'
 import Confirmation from '@/components/Confirmation.vue'
+import { auth } from '@/firebase/firebase'
 
 const selectedKeys = ref<string[]>(['1'])
 const authStore = useAuthStore()
