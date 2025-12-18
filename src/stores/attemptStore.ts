@@ -46,7 +46,7 @@ export const useAttemptStore = defineStore("attempt", () => {
     setTimeout(() => {
       previewResult.value = false;
       nextQuestion();
-    }, 800);
+    }, 1000);
   }
 
   function resetQuiz() {

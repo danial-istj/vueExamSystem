@@ -1,14 +1,8 @@
 <template>
   <a-layout style="min-height: 100vh">
     <!-- Sidebar -->
-    <a-layout-sider
-      v-model:collapsed="collapsed"
-      collapsible
-      class="fixed h-screen border-r border-r-gray-600 z-50"
-      width="200"
-      v-if="authStore.uid"
-      
-    >
+    <a-layout-sider v-model:collapsed="collapsed" collapsible class="fixed h-screen border-r border-r-gray-600 z-50"
+      width="200" v-if="authStore.uid">
       <div class="logo flex items-center justify-center py-4">
         <RouterLink to="/">
           <img src="../assets/logo1.png" alt="logo" class="w-22" />
@@ -45,12 +39,8 @@
             <LogoutOutlined />
             <span>Sign Out</span>
           </button>
-          <Confirmation
-            v-if="confirming"
-            action="Log Out"
-            :proceed="() => { logOutUser(); confirming = false }"
-            :cancel="() => { confirming = false }"
-          />
+          <Confirmation :showModal="confirming" action="Log Out" :proceed="() => { logOutUser(); confirming = false }"
+            :cancel="() => { confirming = false }" />
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
@@ -59,12 +49,12 @@
     <a-layout class="min-h-screen">
       <!-- Header -->
       <a-layout-header class="header fixed top-0 left-0 right-0 z-10" theme="dark" v-if="authStore.uid">
-    
+
       </a-layout-header>
 
       <!-- Content -->
       <a-layout-content class="pt-[64px] overflow-auto bg-gray-100" style="height: calc(100vh - 64px)">
-        <div class="bg-gray-50 min-h-full border border-green-800 m-4">
+        <div class="bg-gray-50 min-h-full  m-4 flex justify-center items-center">
           <RouterView />
         </div>
       </a-layout-content>

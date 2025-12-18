@@ -19,7 +19,7 @@
             </div>
 
             
-                <Button content="Set Difficulty" :action="setDifficulty" :danger="false" :disabled="invalidNoOfQuestions" class="mx-auto"/>
+                <Button content="Set Difficulty" :action="setDifficulty" :danger="false" :disabled="invalidNoOfQuestions || !noOfQuestions" class="mx-auto"/>
         </div>
     </div>
 </template>

@@ -55,9 +55,9 @@ export const defaultQuestions: question[] = [
 ];
 
 export const defaultResults: result[] = [
-  { id: 1734029005, marks: 80, percentage: "80%", total: 100 },
-  { id: 1734029004, marks: 70, percentage: "70%", total: 100 },
-  { id: 1734029003, marks: 90, percentage: "90%", total: 100 },
-  { id: 1734029002, marks: 60, percentage: "60%", total: 100 },
-  { id: 1734029001, marks: 50, percentage: "50%", total: 100 },
+  { id: 1734029005, marks: 80, percentage: "80", total: 100 },
+  { id: 1734029004, marks: 70, percentage: "70", total: 100 },
+  { id: 1734029003, marks: 90, percentage: "90", total: 100 },
+  { id: 1734029002, marks: 60, percentage: "60", total: 100 },
+  { id: 1734029001, marks: 50, percentage: "50", total: 100 },
 ];

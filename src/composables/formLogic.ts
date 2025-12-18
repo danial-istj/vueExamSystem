@@ -1,11 +1,16 @@
 import { ref, computed } from "vue";
 import type { option } from "@/types/questions";
+import { useQuestionsStore } from "@/stores/questionsStore";
+import { storeToRefs } from "pinia";
 
 export function useQuestionForm() {
   const options = ref<option[]>([]);
   const question = ref<string>("");
   const correctIndex = ref<number | null>(null);
   const showValidation = ref<boolean>(false);
+
+  const questionStore = useQuestionsStore();
+  const { idToEdit } = storeToRefs(questionStore);
 
   const lessOptions = computed<boolean>(() => {
     return options.value.length < 4;
@@ -47,6 +52,7 @@ export function useQuestionForm() {
     question.value = "";
     options.value = [];
     correctIndex.value = null;
+    idToEdit.value=null;
   }
   function loadForEdit(editItem: any) {
     question.value = editItem.question;

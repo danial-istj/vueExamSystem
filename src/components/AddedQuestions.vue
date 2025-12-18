@@ -1,12 +1,14 @@
 <template>
-    <div class="added-questions border border-gray-500 flex flex-col gap-1 w-[800px]  rounded-lg  min-h-48 bg-white">
+    <div class="added-questions border p-6 border-gray-500 flex flex-col gap-0 w-[800px]  rounded-lg  
+    min-h-48 bg-white">
 
 
 
-        <div v-for="question, qIndex in questions" :key="question.id"
-            :class="['border-b w-full border-black text-center pb-2', { 'border-b-0': qIndex === questions.length - 1 }]">
+        <div v-for="(question, qIndex) in questions" :key="question.id" :class="['border-b w-full border-black text-center pb-2', { 'border-b-0 rounded-b-lg': qIndex === questions.length - 1 }, { 'bg-gray-100': idToEdit === question.id }, { 'rounded-t-lg': qIndex === 0 }
 
-            <div class="flex justify-between items-center p-2">
+        ]">
+
+            <div class="flex justify-between items-center p-2 ">
 
                 <div class="w-full text-start flex items-center gap-2 ">
 
@@ -16,14 +18,16 @@
                 </div>
 
                 <div class="flex gap-3 items-center">
-                    <button @click="store.editQuestion(question.id)">
-                        <EditOutlined class="text-green-500 text-center flex items-center " />
+                    <button @click="store.editQuestion(question.id)" :disabled="idToEdit === question.id"
+                        class="text-green-500 text-center flex items-center disabled:text-gray-500 disabled:cursor-not-allowed ">
+                        <EditOutlined />
                     </button>
-                    <button @click="selectedId = question.id; confirming = true">
-                        <DeleteOutlined class="text-red-500 text-center flex items-center " />
+                    <button @click="selectQuestion(question.id)" class="text-red-500 text-center flex items-center ">
+                        <DeleteOutlined />
                     </button>
-                    <Confirmation v-if="confirming && selectedId === question.id" action="Delete"
-                        :proceed="deleteSelected" :cancel="() => { confirming = false; selectedId = null }" />
+                    <Confirmation action="Delete This Question" :proceed="deleteSelected" :cancel="cancelSelected"
+                        :showModal="confirming && selectedId === question.id" />
+
                 </div>
 
             </div>
@@ -46,7 +50,8 @@
 
 
 
-                <a-tag color="green" v-if="option.correct" class="ml-2 flex items-center">
+                <a-tag color="green" v-if="option.correct"
+                    :class="['ml-2 flex items-center', { 'bg-gray-100': idToEdit === question.id }]">
                     <CheckCircleFilled class="mr-1" />
                     Correct
                 </a-tag>
@@ -72,7 +77,7 @@ import { ref } from 'vue';
 import { DeleteOutlined, EditOutlined, CheckCircleFilled } from '@ant-design/icons-vue';
 
 const store = useQuestionsStore()
-const { questions } = storeToRefs(store)
+const { questions, idToEdit } = storeToRefs(store)
 const authStore = useAuthStore()
 
 const confirming = ref<boolean>(false)
@@ -84,6 +89,16 @@ function deleteSelected() {
         selectedId.value = null
     }
     confirming.value = false
+}
+
+function selectQuestion(id: number) {
+    selectedId.value = id
+    confirming.value = true
+}
+
+function cancelSelected() {
+    confirming.value = false
+    selectedId.value = null
 }
 
 onMounted(async () => {

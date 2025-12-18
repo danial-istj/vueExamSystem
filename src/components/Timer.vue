@@ -1,6 +1,6 @@
 <template>
-    <div class="flex items-center justify-center h-15 bg-gray-100 rounded-lg shadow-md mb-4">
-        <h2 class="text-4xl font-extrabold text-blue-600">
+    <div class="flex items-center justify-center px-2 w-20 bg-gray-100 rounded-lg shadow-md mb-4 mx-auto p-1">
+        <h2 class="text-4xl font-extrabold text-blue-600 m-0">
             {{ remainingTime }}
             <span class="text-xl font-normal text-gray-500">s</span>
         </h2>

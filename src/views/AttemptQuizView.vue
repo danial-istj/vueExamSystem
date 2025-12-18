@@ -2,15 +2,14 @@
     <div class=" flex flex-col justify-center items-center gap-6 p-6">
         <SetDifficulty v-if="!isDifficultySet" />
 
-        <div v-if="isDifficultySet && !showResults" class="w-full flex gap-5 flex-col items-center">
-            <button @click="restartQuiz"
-                class="px-5 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow hover:bg-indigo-700 transition-colors">
-                Restart Quiz
-            </button>
-            <p class="text-sm text-gray-600 mt-2 mb-4">
+        <div v-if="isDifficultySet && !showResults" class="border border-gray-500 flex flex-col gap-6 
+         w-[800px] p-4 rounded-lg  min-h-48 bg-white justify-center items-center ">
+            <AttemptQuiz />
+            <Button content="Restart Quiz" :disabled="false" :danger="false" :action="restartQuiz" class="mx-auto" />
+            <p class="text-sm text-gray-600 m-0">
                 Note: Quiz will restart on leaving this page.
             </p>
-            <AttemptQuiz />
+
         </div>
 
         <ShowResults v-if="showResults" :score="score" />
@@ -27,7 +26,7 @@ import { useDifficultyStore } from '@/stores/difficultyStore';
 import { useAttemptStore } from '@/stores/attemptStore';
 import { storeToRefs } from 'pinia';
 import { onBeforeRouteLeave } from 'vue-router'
-
+import Button from '@/components/Button.vue';
 
 const difficultyStore = useDifficultyStore()
 const { setDifficulty } = difficultyStore
