@@ -21,7 +21,7 @@ export const useAttemptStore = defineStore("attempt", () => {
     return questions.value[currentIndex.value];
   });
   const percentage = computed(() => {
-    return (Math.round((score.value / questions.value.length) * 100));
+    return (String(Math.round((score.value / questions.value.length) * 100)));
   });
   const previewResult = ref<boolean>(false);
 
