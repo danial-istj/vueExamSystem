@@ -23,10 +23,8 @@ export const useResultsStore = defineStore("results", () => {
     await saveResults(authStore.uid, results.value);
   }
 
-  async function deleteResult(ids: number[]) {
-    ids.forEach((id)=>{
+  async function deleteResult(id: number) {
     results.value = results.value.filter((result) => result.id !== id);
-    })
     await saveResults(authStore.uid, results.value);
   }
 

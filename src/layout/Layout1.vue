@@ -1,15 +1,16 @@
 <template>
   <a-layout style="min-height: 100vh">
+
     <!-- Sidebar -->
-    <a-layout-sider v-model:collapsed="collapsed" collapsible class="fixed h-screen border-r border-r-gray-600 z-50"
+    <a-layout-sider v-model:collapsed="collapsed" collapsible theme="light" class="fixed sider h-screen  z-50"
       width="200" v-if="authStore.uid">
-      <div class="logo flex items-center justify-center py-4">
+      <div class="logo flex items-center justify-center py-4 bg-[#fff]">
         <RouterLink to="/">
-          <img src="../assets/logo1.png" alt="logo" class="w-22" />
+          <img src="../assets/logo1.png" alt="logo" class="logo-img" />
         </RouterLink>
       </div>
 
-      <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+      <a-menu v-model:selectedKeys="selectedKeys" theme="light" mode="inline" class="bg-[#fff]">
         <a-menu-item key="1">
           <RouterLink to="/" class="flex items-center gap-2">
             <HomeOutlined />
@@ -46,9 +47,9 @@
     </a-layout-sider>
 
     <!-- Main Layout -->
-    <a-layout class="min-h-screen">
+    <a-layout class="min-h-screen bg-[#fff]">
       <!-- Header -->
-      <a-layout-header class="header fixed top-0 left-0 right-0 z-10" theme="dark" v-if="authStore.uid">
+      <a-layout-header class="header fixed top-0 left-0 right-0 z-10 bg-[#fff]" theme="light" v-if="authStore.uid">
 
       </a-layout-header>
 
@@ -69,7 +70,6 @@ import router from '@/router'
 import { useAuthStore } from '@/stores/authStore'
 import { RouterLink, RouterView } from 'vue-router'
 import Confirmation from '@/components/Confirmation.vue'
-import { auth } from '@/firebase/firebase'
 
 const selectedKeys = ref<string[]>(['1'])
 const authStore = useAuthStore()
@@ -83,16 +83,24 @@ async function logOutUser() {
 </script>
 
 <style scoped>
+  .logo-img{
+    width:130px
+  }
 .header {
   height: 64px;
   display: flex;
   align-items: center;
   padding: 0 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   position: fixed;
   width: 100%;
   z-index: 10;
 }
+
+:deep(.ant-layout-sider-trigger) {
+  border-top: 1px solid #e5e7eb;
+}
+
 
 .logo img {
   display: block;
@@ -101,5 +109,26 @@ async function logOutUser() {
 
 a-layout-content {
   background: #f0f2f5;
+}
+
+.ant-layout-header {
+  background: #ffffff !important;
+}
+
+
+:deep(.sider) {
+  position: relative;
+}
+
+:deep(.sider)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background-color: #374151;
+  z-index: 1000;
+  pointer-events: none;
 }
 </style>

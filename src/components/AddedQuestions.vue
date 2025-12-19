@@ -1,10 +1,10 @@
 <template>
-    <div class="added-questions border p-6 border-gray-500 flex flex-col gap-0 w-[800px]  rounded-lg  
+    <div class="added-questions border p-6 border-gray-500 flex items-center justify-center flex-col gap-0 w-[800px]  rounded-lg  
     min-h-48 bg-white">
 
 
 
-        <div v-for="(question, qIndex) in questions" :key="question.id" :class="['border-b w-full border-black text-center pb-2', { 'border-b-0 rounded-b-lg': qIndex === questions.length - 1 }, { 'bg-gray-100': idToEdit === question.id }, { 'rounded-t-lg': qIndex === 0 }
+        <div v-if="questions.length > 0" v-for="(question, qIndex) in questions" :key="question.id" :class="['border-b w-full border-black text-center pb-2', { 'border-b-0 rounded-b-lg': qIndex === questions.length - 1 }, { 'bg-gray-100': idToEdit === question.id }, { 'rounded-t-lg': qIndex === 0 }
 
         ]">
 
@@ -61,8 +61,11 @@
 
 
         </div>
-
+        <div v-else>
+            <h1 class="text-xl text-center m-0">There are no Questions.</h1>
+        </div>
     </div>
+
 
 </template>
 

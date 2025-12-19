@@ -1,6 +1,6 @@
 <template>
     <div
-        class="current-question border border-gray-500 flex flex-col gap-1  w-[800px] p-4 rounded-lg  min-h-48 bg-white">
+        class="current-question border border-gray-500 flex flex-col gap-1  w-[800px] p-4 rounded-lg   bg-white">
         <h2 for="question" class="pb-1 m-0">Question</h2>
 
         <input type="text" placeholder="Enter question..." v-model="form.question.value"

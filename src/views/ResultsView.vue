@@ -1,5 +1,8 @@
 <template>
-    <ResultsTable />
+    <div class="  p-6">
+
+        <ResultsTable />
+    </div>
 </template>
 
 <script setup lang="ts">
