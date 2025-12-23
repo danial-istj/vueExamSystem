@@ -4,7 +4,7 @@ import { useQuestionsStore } from "./questionsStore";
 
 export const useDifficultyStore = defineStore("difficulty", () => {
   const questionStore = useQuestionsStore();
-  
+
   const time = 15;
   const noOfQuestions = ref<number>(questionStore.questions.length);
   const isRandom = ref<boolean>(false);
@@ -24,14 +24,16 @@ export const useDifficultyStore = defineStore("difficulty", () => {
   }
   let intervalId: ReturnType<typeof setInterval>;
   function startTimer() {
-    stopTimer();
-    intervalId = setInterval(() => {
-      if (remainingTime.value > 0) {
-        remainingTime.value--;
-      } else {
-        stopTimer();
-      }
-    }, 1000);
+    if (isTimed.value) {
+      stopTimer();
+      intervalId = setInterval(() => {
+        if (remainingTime.value > 0) {
+          remainingTime.value--;
+        } else {
+          stopTimer();
+        }
+      }, 1000);
+    }
   }
   function stopTimer() {
     if (intervalId) {

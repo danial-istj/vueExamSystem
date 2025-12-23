@@ -45,7 +45,7 @@ const { remainingTime, isTimed } = storeToRefs(difficultyStore)
 
 
 watch(remainingTime, () => {
-    if (remainingTime.value === 0) {
+    if (remainingTime.value === 0 && isTimed) {
         nextQuestion()
     }
 })

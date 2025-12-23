@@ -8,7 +8,7 @@ import { useDifficultyStore } from "./difficultyStore";
 export const useAttemptStore = defineStore("attempt", () => {
   const { giveQuestions } = useQuestionsStore();
   const difficultyStore = useDifficultyStore();
-  const { noOfQuestions, isRandom } = storeToRefs(difficultyStore);
+  const { noOfQuestions, isRandom, isTimed } = storeToRefs(difficultyStore);
 
   const currentIndex = ref<number>(0);
   const score = ref<number>(0);
@@ -16,12 +16,12 @@ export const useAttemptStore = defineStore("attempt", () => {
   const questions = computed<question[]>(() => {
     return giveQuestions(noOfQuestions.value, isRandom.value);
   });
-  
+
   const currentQuestion = computed(() => {
     return questions.value[currentIndex.value];
   });
   const percentage = computed(() => {
-    return (String(Math.round((score.value / questions.value.length) * 100)));
+    return String(Math.round((score.value / questions.value.length) * 100));
   });
   const previewResult = ref<boolean>(false);
 
@@ -31,10 +31,15 @@ export const useAttemptStore = defineStore("attempt", () => {
     } else {
       showResults.value = true;
     }
-    difficultyStore.resetTimer();
+    if (isTimed.value) {
+      difficultyStore.resetTimer();
+    }
   }
 
   function checkAnswer(index: number): void {
+    if (previewResult.value) {
+      return;
+    }
     if (
       currentQuestion.value?.options[index]?.correct === true &&
       currentIndex.value < questions.value.length
